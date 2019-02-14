@@ -8,6 +8,7 @@ gem 'require_all'
 gem 'sqlite3', '~>1.3.6'
 gem 'pry'
 gem 'faker'
+gem 'terminal-table'
 
 #gem "sinatra-activerecord"
 #gem "sqlite3"

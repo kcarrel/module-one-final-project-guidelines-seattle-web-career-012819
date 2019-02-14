@@ -1,7 +1,7 @@
 require 'pry'
 
 class CLI
-  attr_accessor :username
+  attr_accessor :username, :character_name
 
   def welcome
     puts ".___  ___.      ___      .______     ____    ____  _______  __           ______      __    __   _______ .______     ____    ____    "
@@ -64,7 +64,8 @@ class CLI
     puts "2. See the top 5 most prolific characters I have saved"
     puts "3. See the top 5 of my saved characters that have appeared in the most events"
     puts "4. See the top 5 of my saved characters that have appeared in the most series"
-    puts "5. Go back to the main menu"
+    puts "5. Learn more about one of your characters"
+    puts "6. Go back to the main menu"
     answer = gets.chomp.downcase
 
     if answer == "1"
@@ -80,6 +81,8 @@ class CLI
       User.find_characters_in_most_series(username)
       self.browse_my_characters
     elsif answer == "5"
+      self.choose_character
+    elsif answer == "6"
       self.menu
     elsif  answer == "0"
       puts "Goodbye!"
@@ -90,6 +93,23 @@ class CLI
     end
   end
 
+  def choose_character
+
+    puts "Which one do you want to learn more about?"
+    print "Character Name:"
+    @character_name = gets.chomp
+    while Character.find_character(character_name) != true
+
+      puts "-----> That character isn't in our database. Check the characters below and try again."
+      User.find_characters_by_username(username)
+      print "Character Name:"
+      @character_name = gets.chomp
+    end
+    puts "Menu forthcoming"
+  end
+
+  def learn_about_character(character_name)
+  end 
 
 
   def browse_all_characters
