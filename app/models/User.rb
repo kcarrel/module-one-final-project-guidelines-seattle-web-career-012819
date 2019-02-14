@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
 
    def self.find_characters_by_username(name)
      usermatch = self.where(name: name).first
-     puts usermatch
      puts usermatch.characters.pluck(:name)
    end
 

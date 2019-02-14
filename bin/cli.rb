@@ -19,16 +19,19 @@ class CLI
     puts " \\______| |_______||__| \\__| |_______|| _| `._____|/__/     \\__\\  |__|      \\______/  | _| `._____|                                 "
     puts "                                                                                                                                    "
 
-    puts "Welcome to the Marvel Query Machine!"
+    puts "Welcome to the Marvel Query Generator!"
     puts "What is your username? It's case sensitive!"
+    print "Username:"
     @username = gets.chomp
-    if User.find_user(username) == true
-      self.menu
-    else
+    while User.find_user(username) != true
+
       puts "-----> You're not in our database. Check the usernames below and try again. Remember: usernames are case sensitive!"
       puts User.find_all_users
       puts "---------------------------------"
+      print "Username:"
+      @username = gets.chomp
     end
+    self.menu
     #gets.chomp.downcase
   end
 
