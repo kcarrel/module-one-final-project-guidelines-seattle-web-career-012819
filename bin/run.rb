@@ -12,9 +12,8 @@ require 'pry'
 #end
 
 cli = CLI.new
-binding.pry
 cli.welcome
-#cli.menu
+cli.menu
 #character = characters
 
 #  puts "HELLO WORLD"

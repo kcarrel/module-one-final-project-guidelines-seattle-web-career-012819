@@ -6,3 +6,6 @@ task :console do
   ActiveRecord::Base.logger = Logger.new(STDOUT)
   Pry.start
 end
+
+task :environment do
+end #stackoverflow fix for "No connection pool" error in User
