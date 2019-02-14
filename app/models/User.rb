@@ -2,6 +2,13 @@ class User < ActiveRecord::Base
   has_many :character_cards# :tracked_characters
   has_many :characters, through: :character_cards
 
+  def self.find_user(name)
+    self.exists?(name: name)
+  end
+
+  def self.find_all_users
+    puts self.pluck(:name)
+  end
 
    def self.find_characters_by_username(name)
      usermatch = self.where(name: name).first
@@ -27,4 +34,4 @@ class User < ActiveRecord::Base
      puts top_characters.pluck(:name)
   end
 
-end 
+end

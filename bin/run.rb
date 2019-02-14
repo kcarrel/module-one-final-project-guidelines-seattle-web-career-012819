@@ -13,7 +13,7 @@ require 'pry'
 
 cli = CLI.new
 cli.welcome
-cli.menu
+#cli.menu
 #character = characters
 
 #  puts "HELLO WORLD"

@@ -4,9 +4,31 @@ class CLI
   attr_accessor :username
 
   def welcome
+    puts ".___  ___.      ___      .______     ____    ____  _______  __           ______      __    __   _______ .______     ____    ____    "
+    puts "|   \\/   |     /   \\     |   _  \\    \\   \\  /   / |   ____||  |         /  __  \\    |  |  |  | |   ____||   _  \\    \\   \\  /   /    "
+    puts "|  \\  /  |    /  ^  \\    |  |_)  |    \\   \\/   /  |  |__   |  |        |  |  |  |   |  |  |  | |  |__   |  |_)  |    \\   \\/   /     "
+    puts "|  |\\/|  |   /  /_\\  \\   |      /      \\      /   |   __|  |  |        |  |  |  |   |  |  |  | |   __|  |      /      \\_    _/      "
+    puts "|  |  |  |  /  _____  \\  |  |\\  \\----.  \\    /    |  |____ |  `----.   |  `--'  '--.|  `--'  | |  |____ |  |\\  \\----.   |  |        "
+    puts "|__|  |__| /__/     \\__\\ | _| `._____|   \\__/     |_______||_______|    \\_____\\_____\\\\______/  |_______|| _| `._____|   |__|        "
+    puts ""
+    puts "  _______  _______ .__   __.  _______ .______           ___   .___________.  ______   .______                                       "
+    puts " /  _____||   ____||  \\ |  | |   ____||   _  \\         /   \\  |           | /  __  \\  |   _  \\                                      "
+    puts "|  |  __  |  |__   |   \\|  | |  |__   |  |_)  |       /  ^  \\ `---|  |----`|  |  |  | |  |_)  |                                     "
+    puts "|  | |_ | |   __|  |  . `  | |   __|  |      /       /  /_\\  \\    |  |     |  |  |  | |      /                                      "
+    puts "|  |__| | |  |____ |  |\\   | |  |____ |  |\\  \\----. /  _____  \\   |  |     |  `--'  | |  |\\  \\----.                                 "
+    puts " \\______| |_______||__| \\__| |_______|| _| `._____|/__/     \\__\\  |__|      \\______/  | _| `._____|                                 "
+    puts "                                                                                                                                    "
+
     puts "Welcome to the Marvel Query Machine!"
     puts "What is your username? It's case sensitive!"
     @username = gets.chomp
+    if User.find_user(username) == true
+      self.menu
+    else
+      puts "-----> You're not in our database. Check the usernames below and try again. Remember: usernames are case sensitive!"
+      puts User.find_all_users
+      puts "---------------------------------"
+    end
     #gets.chomp.downcase
   end
 
@@ -64,6 +86,7 @@ class CLI
       self.browse_my_characters
     end
   end
+
 
 
   def browse_all_characters
