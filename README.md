@@ -2,12 +2,12 @@
 
 ##Description
 
-We have utilized the Marvel API to generate a database from which a user may choose characters to track and find information about such as how often a character appears in a series. The user can interact with the database using the provided CLI.
+We have utilized the Marvel API to generate a database where users are tracking characters. The user may then find information about their characters and their associated Marvel events (e.g. Civil War). The user can interact with the database using the provided CLI.
 
 ##Install Instructions
 1. Fork the repository: https://github.com/kcarrel/apis-and-iteration-seattle-web-career-012819/blob/master/README.md
 2. Clone the repository into the desired folder in your terminal
-3. Run gem install 'marvel_api' or add gem 'marvel_api' to your Gemfile and bundle.
+3. Run bundle install
 4. Create a secrets.yml file under the config folder with the content as reflected below:
   api_key: 'enter your api key here'
   private_key: 'enter your private api key here'

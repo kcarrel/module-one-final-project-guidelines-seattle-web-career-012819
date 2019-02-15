@@ -35,9 +35,9 @@ class User < ActiveRecord::Base
    def self.find_characters_in_most_events(name)
      rows = []
      usermatch = self.where(name: name).first
-     top_characters = usermatch.characters.order(events: :desc).limit(5)
+     top_characters = usermatch.characters.order(eventcount: :desc).limit(5)
      top_characters.each do |character|
-       rows << ["#{character.name}", character.events]
+       rows << ["#{character.name}", character.eventcount]
      end
    table = Terminal::Table.new :headings => ['Character', 'Number of Events Appeared In'],:rows => rows
    puts table

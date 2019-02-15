@@ -5,7 +5,7 @@ class CreateCharacters < ActiveRecord::Migration[5.0]
       t.integer :comics
       t.integer :series
       t.integer :stories
-      t.integer :events
+      t.integer :eventcount
     end
   end
 end

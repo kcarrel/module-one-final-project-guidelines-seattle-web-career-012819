@@ -95,21 +95,69 @@ class CLI
 
   def choose_character
 
-    puts "Which one do you want to learn more about?"
+    puts "-----> Which one do you want to learn more about? Enter '0' to return to main menu."
     print "Character Name:"
     @character_name = gets.chomp
-    while Character.find_character(character_name) != true
+    if character_name == "0"
+      self.menu
+    else
+      while Character.find_character(character_name) != true
 
-      puts "-----> That character isn't in our database. Check the characters below and try again."
-      User.find_characters_by_username(username)
-      print "Character Name:"
-      @character_name = gets.chomp
+        puts "-----> That character isn't in our database. Check the characters below and try again."
+        User.find_characters_by_username(username)
+        print "Character Name:"
+        @character_name = gets.chomp
+      end
+    learn_about_character(character_name)
     end
-    puts "Menu forthcoming"
   end
 
-  def learn_about_character(character_name)
-  end 
+  def learn_about_character(name)
+    puts "-----> What would you like to do?"
+    puts "0. exit"
+    puts "1. See events #{name} has been involved in"
+    puts "2. See general statistics about #{name}"
+    puts "3. Go back to browsing your characters"
+    answer = gets.chomp
+    if answer == "1"
+      Character.find_events_by_character_name(name)
+      self.see_all_event_characters
+    elsif answer == "2"
+      Character.show_statistics(name)
+      self.learn_about_character(name)
+    elsif answer == "0"
+     puts "Goodbye!"
+     nil
+   elsif answer == "3"
+     self.browse_my_characters
+    else
+      puts "Please enter a valid number"
+      return self.browse_all_characters
+    end
+  end
+
+  def see_all_event_characters
+    puts "0. Go back to browsing your characters"
+    puts "1. See all the characters in one of the above events"
+    answer = gets.chomp
+    if answer == "0"
+      self.browse_my_characters
+    elsif answer == "1"
+      puts "Please enter event name!"
+      print "Event Name:"
+      answer = gets.chomp
+      while Event.find_event(answer) != true
+        puts "-----> That event isn't in our database. Check the events below and try again."
+        Event.find_all_events
+        print "Event Name:"
+        answer = gets.chomp
+      end
+      Event.find_all_characters_in_event(answer)
+    else puts "Please enter a valid number"
+      return self.see_all_event_characters
+    end
+  end
+
 
 
   def browse_all_characters
@@ -120,7 +168,7 @@ class CLI
     puts "3. See the top 5 characters that have appeared in the most events"
     puts "4. See the top 5 characters that have appeared in the most series"
     puts "5. Go back to the main menu"
-    answer = gets.chomp.downcase
+    answer = gets.chomp
 
     if answer == "1"
       Character.find_all_characters
