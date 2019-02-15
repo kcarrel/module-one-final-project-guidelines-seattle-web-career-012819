@@ -5,6 +5,7 @@ User.destroy_all
 Character.destroy_all
 CharacterCard.destroy_all
 
+
 puts "CREATING USERS"
   10.times do
     User.create(
@@ -22,8 +23,13 @@ puts "CREATING CHARACTERS"
       series_appeared_in = all_characters[i].to_hash["series"]["available"]
       stories_appeared_in = all_characters[i].to_hash["stories"]["available"]
       events_appeared_in = all_characters[i].to_hash["events"]["available"]
+      if events_appeared_in != 0
+      puts all_characters[i].to_hash["events"]["items"].to_a[0]["name"]
+      i += 1
+    else
       Character.create(name: name, comics: comics_appeared_in, series: series_appeared_in, stories: stories_appeared_in, events: events_appeared_in)
       i += 1
+    end
     end
     i = 0
     all_characters = @client.characters(limit: 100, offset:600)

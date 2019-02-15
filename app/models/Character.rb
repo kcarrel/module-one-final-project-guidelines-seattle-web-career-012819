@@ -1,6 +1,8 @@
 class Character < ActiveRecord::Base
   has_many :character_cards
   has_many :users, through: :character_cards
+  has_many :events, through: :event_cards
+  has_many :event_cards
 
   def self.find_character(name)
     self.exists?(name: name)
