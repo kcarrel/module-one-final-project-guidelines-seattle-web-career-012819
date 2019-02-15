@@ -2,7 +2,7 @@
 
 ##Description
 
-We have utilized the Marvel API to generate a database where users are tracking characters. The user may then find information about their characters and their associated Marvel events (e.g. Civil War). The user can interact with the database using the provided CLI.
+We have utilized the Marvel API to generate a database where users are tracking characters. The user may then find information about their characters and their associated Marvel events (e.g. Civil War). The user can interact with the database using the provided CLI.  
 
 ##Install Instructions
 1. Fork the repository: https://github.com/kcarrel/apis-and-iteration-seattle-web-career-012819/blob/master/README.md
