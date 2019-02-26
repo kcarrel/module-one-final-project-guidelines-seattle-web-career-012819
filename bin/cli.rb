@@ -32,7 +32,6 @@ class CLI
       @username = gets.chomp
     end
     self.menu
-    #gets.chomp.downcase
   end
 
   def menu
@@ -54,8 +53,6 @@ class CLI
       self.menu
     end
   end
-
-
 
   def browse_my_characters
     puts "-----> What would you like to do?"
@@ -192,6 +189,5 @@ class CLI
       return self.browse_all_characters
     end
   end
-
 
 end

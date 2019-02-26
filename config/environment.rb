@@ -1,13 +1,10 @@
 require 'bundler'
 Bundler.require
-require_rel ('../app')
-require_rel ('../lib')
-# require_all ('bin')
-#require_rel ()
+require_all 'app'
+require_rel '../bin/cli.rb'
 
 ActiveRecord::Base.logger = nil
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: 'db/development.db')
-#require_all 'lib'
 
 @client = Marvel::Client.new
 key_hash = YAML::load(File.open('config/secrets.yml'))

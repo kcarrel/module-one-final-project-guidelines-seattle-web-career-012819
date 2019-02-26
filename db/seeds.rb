@@ -1,6 +1,3 @@
-#require 'pry'
-#require 'rest-client'
-#require 'json'
 User.destroy_all
 Character.destroy_all
 CharacterCard.destroy_all
@@ -13,7 +10,7 @@ puts "CREATING USERS"
     User.create(
       name: Faker::Games::Zelda.character
     )
-end
+  end
 
 
 puts "CREATING CHARACTERS"
@@ -68,8 +65,7 @@ puts "CREATING CHARACTERS"
        end
      end
 
-
-  puts "CREATING CHARACTER_CARDS"
-    200.times do
-      CharacterCard.create(user_id: User.all.sample.id, character_id: Character.all.sample.id)
+puts "CREATING CHARACTER_CARDS"
+  200.times do
+    CharacterCard.create(user_id: User.all.sample.id, character_id: Character.all.sample.id)
   end
