@@ -4,7 +4,7 @@ class CLI
   attr_accessor :username, :character_name
 
   def welcome
-    puts <<-'ASCII'
+    puts <<~'welcome_text'
     .___  ___.      ___      .______     ____    ____  _______  __           ______      __    __   _______ .______     ____    ____
     |   \/   |     /   \     |   _  \    \   \  /   / |   ____||  |         /  __  \    |  |  |  | |   ____||   _  \    \   \  /   /
     |  \  /  |    /  ^  \    |  |_)  |    \   \/   /  |  |__   |  |        |  |  |  |   |  |  |  | |  |__   |  |_)  |    \   \/   /
@@ -18,10 +18,11 @@ class CLI
     |  | |_ | |   __|  |  . `  | |   __|  |      /       /  /_\  \    |  |     |  |  |  | |      /
     |  |__| | |  |____ |  |\   | |  |____ |  |\  \----. /  _____  \   |  |     |  `--'  | |  |\  \----.
      \______| |_______||__| \__| |_______|| _| `._____|/__/     \__\  |__|      \______/  | _| `._____|
-    ASCII
 
-    puts "Welcome to the Marvel Query Generator!"
-    puts "What is your username? It's case sensitive!"
+    Welcome to the Marvel Query Generator!
+    What is your username? It's case sensitive!
+    welcome_text
+
     print "Username:"
     @username = gets.chomp
     while User.find_user(username) != true
@@ -36,10 +37,12 @@ class CLI
   end
 
   def menu
-    puts "-----> What would you like to do?"
-    puts "0. exit"
-    puts "1. See info about my saved characters"
-    puts "2. See all characters"
+    puts <<~menu_text
+    -----> What would you like to do?
+    0. exit
+    1. See info about my saved characters
+    2. See all characters
+    menu_text
     answer = gets.chomp.downcase
 
     if answer == "1"
@@ -56,14 +59,16 @@ class CLI
   end
 
   def browse_my_characters
-    puts "-----> What would you like to do?"
-    puts "0. exit"
-    puts "1. See a list of my saved characters"
-    puts "2. See the top 5 most prolific characters I have saved"
-    puts "3. See the top 5 of my saved characters that have appeared in the most events"
-    puts "4. See the top 5 of my saved characters that have appeared in the most series"
-    puts "5. Learn more about one of your characters"
-    puts "6. Go back to the main menu"
+    puts <<~browse_my_characters_text
+    -----> What would you like to do?
+    0. exit
+    1. See a list of my saved characters
+    2. See the top 5 most prolific characters I have saved
+    3. See the top 5 of my saved characters that have appeared in the most events
+    4. See the top 5 of my saved characters that have appeared in the most series
+    5. Learn more about one of your characters
+    6. Go back to the main menu
+    browse_my_characters_text
     answer = gets.chomp.downcase
 
     if answer == "1"
@@ -111,11 +116,13 @@ class CLI
   end
 
   def learn_about_character(name)
-    puts "-----> What would you like to do?"
-    puts "0. exit"
-    puts "1. See events #{name} has been involved in"
-    puts "2. See general statistics about #{name}"
-    puts "3. Go back to browsing your characters"
+    puts <<~learn_about_character_text
+    -----> What would you like to do?
+    0. exit
+    1. See events #{name} has been involved in
+    2. See general statistics about #{name}
+    3. Go back to browsing your characters
+    learn_about_character_text
     answer = gets.chomp
     if answer == "1"
       Character.find_events_by_character_name(name)
@@ -159,13 +166,15 @@ class CLI
 
 
   def browse_all_characters
-    puts "-----> What would you like to do?"
-    puts "0. exit"
-    puts "1. See a list of all characters"
-    puts "2. See the top 5 most prolific characters"
-    puts "3. See the top 5 characters that have appeared in the most events"
-    puts "4. See the top 5 characters that have appeared in the most series"
-    puts "5. Go back to the main menu"
+    puts <<~browse_all_characters_text
+    -----> What would you like to do?
+    0. exit
+    1. See a list of all characters
+    2. See the top 5 most prolific characters
+    3. See the top 5 characters that have appeared in the most events
+    4. See the top 5 characters that have appeared in the most series
+    5. Go back to the main menu
+    browse_all_characters_text
     answer = gets.chomp
 
     if answer == "1"
