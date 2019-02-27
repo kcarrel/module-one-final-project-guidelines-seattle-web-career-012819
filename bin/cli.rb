@@ -1,7 +1,4 @@
-require 'pry'
-
 class CLI
-  attr_accessor :username, :character_name
 
   def welcome
     puts <<~'welcome_text'
@@ -24,15 +21,16 @@ class CLI
     welcome_text
 
     print "Username:"
-    @username = gets.chomp
+    username = gets.chomp
     while User.find_user(username) != true
 
       puts "-----> You're not in our database. Check the usernames below and try again. Remember: usernames are case sensitive!"
       puts User.find_all_users
       puts "---------------------------------"
       print "Username:"
-      @username = gets.chomp
+      username = gets.chomp
     end
+    @user = User.find_by(name: username)
     self.menu
   end
 
@@ -71,27 +69,26 @@ class CLI
     browse_my_characters_text
     answer = gets.chomp.downcase
 
-    if answer == "1"
-      User.find_characters_by_username(username)
-      self.browse_my_characters
-    elsif answer == "2"
-      User.find_most_prolific_characters(username)
-      self.browse_my_characters
-    elsif  answer == "3"
-      User.find_characters_in_most_events(username)
-      self.browse_my_characters
-    elsif answer == "4"
-      User.find_characters_in_most_series(username)
-      self.browse_my_characters
-    elsif answer == "5"
-      self.choose_character
-    elsif answer == "6"
-      self.menu
-    elsif  answer == "0"
+    if answer == "0"
       puts "Goodbye!"
       nil
+    elsif answer == "6"
+      self.menu
     else
-      puts "Please enter a valid number"
+      if answer == "1"
+        @user.find_characters
+      elsif answer == "2"
+        @user.find_most_prolific_characters
+      elsif  answer == "3"
+        @user.find_characters_in_most_events
+      elsif answer == "4"
+        @user.find_characters_in_most_series
+      elsif answer == "5"
+        self.choose_character
+      else
+        puts "Please enter a valid number"
+      end
+
       self.browse_my_characters
     end
   end
@@ -100,44 +97,45 @@ class CLI
 
     puts "-----> Which one do you want to learn more about? Enter '0' to return to main menu."
     print "Character Name:"
-    @character_name = gets.chomp
+    character_name = gets.chomp
     if character_name == "0"
       self.menu
     else
       while Character.find_character(character_name) != true
-
-        puts "-----> That character isn't in our database. Check the characters below and try again."
-        User.find_characters_by_username(username)
+        puts "-----> You have not stored that character in our database. Check the characters below and try again."
+        @user.find_characters
         print "Character Name:"
-        @character_name = gets.chomp
+        character_name = gets.chomp
       end
-    learn_about_character(character_name)
+      character = Character.find_by(name: character_name)
+      learn_about_character(character)
     end
   end
 
-  def learn_about_character(name)
+  def learn_about_character(character)
     puts <<~learn_about_character_text
     -----> What would you like to do?
     0. exit
-    1. See events #{name} has been involved in
-    2. See general statistics about #{name}
+    1. See events #{character.name} has been involved in
+    2. See general statistics about #{character.name}
     3. Go back to browsing your characters
     learn_about_character_text
     answer = gets.chomp
+
     if answer == "1"
-      Character.find_events_by_character_name(name)
+      character.find_events
       self.see_all_event_characters
     elsif answer == "2"
-      Character.show_statistics(name)
-      self.learn_about_character(name)
+      character.show_statistics
+      self.learn_about_character(character)
+    elsif answer == "3"
+      self.browse_my_characters
     elsif answer == "0"
-     puts "Goodbye!"
-     nil
-   elsif answer == "3"
-     self.browse_my_characters
+      puts "Goodbye!"
+      nil
     else
       puts "Please enter a valid number"
-      return self.browse_all_characters
+      self.learn_about_character(character)
     end
   end
 
@@ -157,7 +155,8 @@ class CLI
         print "Event Name:"
         answer = gets.chomp
       end
-      Event.find_all_characters_in_event(answer)
+      event = Event.find_by(name: answer)
+      event.find_all_characters
     else puts "Please enter a valid number"
       return self.see_all_event_characters
     end
