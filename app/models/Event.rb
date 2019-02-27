@@ -8,23 +8,14 @@ class Event < ActiveRecord::Base
   end
 
   def self.find_all_events
-    rows = []
-    all_events = self.all
-    all_events.each do |event|
-      rows << ["#{event.name}"]
-    end
+    rows = self.all.map { |event| ["#{event.name}"] }
     table = Terminal::Table.new :headings => ['Events'],:rows => rows
     puts table
   end
 
-  def self.find_all_characters_in_event(name)
-    rows = []
-    eventmatch = self.where(name: name).first
-    event_characters = eventmatch.characters
-    event_characters.each do |character|
-      rows << ["#{character.name}"]
-    end
-    table = Terminal::Table.new :headings => ["Characters in #{name}"],:rows => rows
+  def find_all_characters
+    rows = self.characters.map { |character| ["#{character.name}"] }
+    table = Terminal::Table.new :headings => ["Characters in #{self.name}"],:rows => rows
     puts table
   end
 

@@ -10,48 +10,40 @@ class User < ActiveRecord::Base
     puts self.pluck(:name)
   end
 
-   def self.find_characters_by_username(name)
-     rows = []
-     usermatch = self.where(name: name).first
-     user_characters = usermatch.characters
-     user_characters.each do |character|
-       rows << ["#{character.name}"]
-     end
+   def find_characters
+     rows = self.characters.map { |character| ["#{character.name}"] }
      table = Terminal::Table.new :headings => ['Characters'],:rows => rows
      puts table
    end
 
-   def self.find_most_prolific_characters(name)
-     rows = []
-     usermatch = self.where(name: name).first
-     top_characters = usermatch.characters.order(comics: :desc).limit(5)
-     top_characters.each do |character|
-       rows << ["#{character.name}", character.comics]
-     end
-   table = Terminal::Table.new :headings => ['Character', 'Number of Comics Appeared In'],:rows => rows
-   puts table
+   def find_most_prolific_characters
+     top_characters = self.characters.order(comics: :desc).limit(5)
+     rows = top_characters.map { |character| ["#{character.name}", character.comics] }
+     table = Terminal::Table.new ({
+        :headings => ['Character', 'Number of Comics Appeared In'],
+        :rows => rows
+      })
+     puts table
    end
 
-   def self.find_characters_in_most_events(name)
-     rows = []
-     usermatch = self.where(name: name).first
-     top_characters = usermatch.characters.order(eventcount: :desc).limit(5)
-     top_characters.each do |character|
-       rows << ["#{character.name}", character.eventcount]
-     end
-   table = Terminal::Table.new :headings => ['Character', 'Number of Events Appeared In'],:rows => rows
-   puts table
+   def find_characters_in_most_events
+     top_characters = self.characters.order(eventcount: :desc).limit(5)
+     rows = top_characters.map { |character| ["#{character.name}", character.eventcount] }
+     table = Terminal::Table.new ({
+       :headings => ['Character', 'Number of Events Appeared In'],
+       :rows => rows
+     })
+     puts table
   end
 
-   def self.find_characters_in_most_series(name)
-     rows = []
-     usermatch = self.where(name: name).first
-     top_characters = usermatch.characters.order(series: :desc).limit(5)
-     top_characters.each do |character|
-       rows << ["#{character.name}", character.series]
-     end
-   table = Terminal::Table.new :headings => ['Character', 'Number of Series Appeared In'],:rows => rows
-   puts table
+   def find_characters_in_most_series
+     top_characters = self.characters.order(series: :desc).limit(5)
+     rows = top_characters.map { |character| ["#{character.name}", character.series] }
+     table = Terminal::Table.new ({
+       :headings => ['Character', 'Number of Series Appeared In'],
+       :rows => rows
+     })
+     puts table
   end
 
 end
