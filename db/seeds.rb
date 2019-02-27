@@ -14,58 +14,34 @@ puts "CREATING USERS"
 
 
 puts "CREATING CHARACTERS"
-   i = 0
-   all_characters = @client.characters(limit: 100)
-    while i < 100
-      name = all_characters[i].to_hash["name"]
-      comics_appeared_in = all_characters[i].to_hash["comics"]["available"]
-      series_appeared_in = all_characters[i].to_hash["series"]["available"]
-      stories_appeared_in = all_characters[i].to_hash["stories"]["available"]
-      events_appeared_in = all_characters[i].to_hash["events"]["available"]
-      Character.create(
-        name: name,
-        comics: comics_appeared_in,
-        series: series_appeared_in,
-        stories: stories_appeared_in,
-        eventcount: events_appeared_in
+
+  def create_characters(limit, offset)
+    all_characters = @client.characters(limit: limit, offset: offset)
+    all_characters.each do |character|
+
+      # &. is the "safe navigation operator"
+      # it means that the program won't crash if the API doesn't return
+      # character.name, character.comics, etc. like we expect
+      current_character = Character.create(
+        name: character&.name,
+        comics: character&.comics&.available,
+        series: character&.series&.available,
+        stories: character&.stories&.available,
+        eventcount: character&.events&.available
       )
-       if events_appeared_in != 0
-         event_name = all_characters[i].to_hash["events"]["items"].to_a[0]["name"]
-         Event.find_or_create_by(name:event_name)
-         currentevent = Event.where(name: event_name)
-         EventCard.create(event_id: currentevent[0].id, character_id: Character.all.last.id)
-         i += 1
-       else
-        i += 1
+
+      character&.events&.items.each do |event|
+        current_event = Event.find_or_create_by(name: event.name)
+        EventCard.create(event: current_event, character: current_character)
       end
     end
-    i = 0
-    all_characters = @client.characters(limit: 100, offset:600)
-     while i < 100
-       name = all_characters[i].to_hash["name"]
-       comics_appeared_in = all_characters[i].to_hash["comics"]["available"]
-       series_appeared_in = all_characters[i].to_hash["series"]["available"]
-       stories_appeared_in = all_characters[i].to_hash["stories"]["available"]
-       events_appeared_in = all_characters[i].to_hash["events"]["available"]
-       Character.create(
-         name: name,
-         comics: comics_appeared_in,
-         series: series_appeared_in,
-         stories: stories_appeared_in,
-         eventcount: events_appeared_in
-       )
-        if events_appeared_in != 0
-          event_name = all_characters[i].to_hash["events"]["items"].to_a[0]["name"]
-          Event.find_or_create_by(name:event_name)
-          currentevent = Event.where(name: event_name)
-          EventCard.create(event_id: currentevent[0].id, character_id: Character.all.last.id)
-          i += 1
-        else
-         i += 1
-       end
-     end
+  end
+
+  create_characters(100, 0)
+  create_characters(100, 600)
+
 
 puts "CREATING CHARACTER_CARDS"
   200.times do
-    CharacterCard.create(user_id: User.all.sample.id, character_id: Character.all.sample.id)
+    CharacterCard.create(user: User.all.sample, character: Character.all.sample)
   end
